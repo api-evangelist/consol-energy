@@ -1,0 +1,7 @@
+aid: consol-energy
+url: https://raw.githubusercontent.com/api-evangelist/consol-energy/refs/heads/main/apis.yml
+modified: '2026-03-23'
+apis: []
+common:
+  - type: Website
+    url: https://www.consol-energy.com
