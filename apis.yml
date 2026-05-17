@@ -19,7 +19,7 @@ url: >-
 created: '2026-03-23'
 modified: '2026-04-28'
 specificationVersion: '0.19'
-x-type: company
+kind: company
 tags:
   - Bituminous Coal
   - Coal Mining
