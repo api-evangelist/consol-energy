@@ -29,6 +29,7 @@ tags:
   - Mining
   - Suppliers
   - Sustainability
+  - Fortune 1000
 apis:
   - aid: consol-energy:supplier-relations
     name: Core Natural Resources Supplier Relations
