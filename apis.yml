@@ -76,6 +76,8 @@ apis:
       - Track CEIX/Core Natural Resources financial reporting
       - Download earnings materials for analyst models
 common:
+  - type: DomainSecurity
+    url: security/consol-energy-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/consol-energy
   - type: Website
