@@ -1,6 +1,8 @@
 # CONSOL Energy (consol-energy)
 
-CONSOL Energy was a Pittsburgh-based coal mining company that produced high-quality bituminous coal from underground mines for sale to electric utilities, steelmakers, and industrial customers. In 2025 CONSOL Energy merged with Arch Resources to form Core Natural Resources, and the consolenergy.com domain now redirects to corenaturalresources.com. The combined company does not publish public developer APIs; its external digital surface is organized around an investor relations site, a suppliers page (with downloadable terms, conditions, and a Supplier Code of Conduct), and corporate sustainability/safety disclosures.
+CONSOL Energy was a Pittsburgh-based coal mining company that produced high-quality bituminous coal from underground mines for sale to electric utilities, steelmakers, and industrial customers. In 2025 CONSOL Energy merged with Arch Resources to form Core Natural Resources, and the consolenergy.com domain now redirects to corenaturalresources.com. The combined company does not publish public developer APIs; its external digital surface is organized around an investor relations site, a suppliers page (with downloadable terms, conditions, and a Supplier Code of Conduct), and corporate sustainability/safety disclosures — all HTML and PDF, with no documented endpoints and no XML feeds (probed 2026-07-25).
+
+**Related profile:** [arch-coal](https://github.com/api-evangelist/arch-coal) — the other half of the merger.
 
 **URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/consol-energy/refs/heads/main/apis.yml)
 
@@ -22,55 +24,16 @@ CONSOL Energy was a Pittsburgh-based coal mining company that produced high-qual
 
 ## APIs
 
-### Core Natural Resources Supplier Relations
+The suppliers and investor relations pages were previously listed here as APIs. They are corporate web pages — no documented endpoints, no machine-readable feeds — so they now appear under Common Properties as website surfaces instead.
 
-The successor company to CONSOL Energy publishes a suppliers page with a downloadable Terms and Conditions document and a Supplier Code of Conduct PDF. There is no online supplier portal, online registration, or public API; suppliers contact the company directly for onboarding.
+### SEC EDGAR Filings (Core Natural Resources, CIK 1710366)
 
-**Human URL:** [https://corenaturalresources.com/suppliers/](https://corenaturalresources.com/suppliers/)
+Third-party government API — filing history as JSON. CIK 0001710366 is the CONSOL Energy Inc. registrant, renamed Core Natural Resources in January 2025, so it covers CONSOL's filing history as well as the merged company's.
 
-#### Tags
+- [EDGAR APIs documentation](https://www.sec.gov/search-filings/edgar-application-programming-interfaces)
+- [https://data.sec.gov/submissions/CIK0001710366.json](https://data.sec.gov/submissions/CIK0001710366.json)
 
-- Procurement, Supplier
-
-#### Properties
-
-- [Documentation](https://corenaturalresources.com/suppliers/)
-
-#### Features
-
-- Supplier Terms and Conditions
-- Supplier Code of Conduct
-
-#### Use Cases
-
-- Review supplier obligations before contracting
-- Download Code of Conduct for compliance review
-
-### Core Natural Resources Investor Relations
-
-The investor-facing digital channel for the post-merger Core Natural Resources company.
-
-**Human URL:** [https://corenaturalresources.com/investors/](https://corenaturalresources.com/investors/)
-
-#### Tags
-
-- Filings, Investor Relations
-
-#### Properties
-
-- [Documentation](https://corenaturalresources.com/investors/)
-
-#### Features
-
-- SEC Filings
-- Earnings Releases
-- Investor Presentations
-- Governance Documents
-
-#### Use Cases
-
-- Track Core Natural Resources financial reporting
-- Download earnings materials for analyst models
+**Evidence, verified 2026-07-25.** The documentation page describes RESTful JSON APIs on `data.sec.gov` — `https://data.sec.gov/submissions/CIK##########.json` plus the XBRL `companyconcept`, `companyfacts`, and `frames` APIs, no authentication required, with a declared User-Agent and a 10-requests-per-second fair-access ceiling. Calling the endpoint returned HTTP 200 with JSON naming "Core Natural Resources, Inc.", ticker CNR, and the former name "CONSOL Energy Inc." through 2025-01-10.
 
 ## Common Properties
 
@@ -78,10 +41,10 @@ The investor-facing digital channel for the post-merger Core Natural Resources c
 - [Legacy Website](https://www.consol-energy.com)
 - [Suppliers](https://corenaturalresources.com/suppliers/)
 - [Investors](https://corenaturalresources.com/investors/)
-- [News](https://corenaturalresources.com/news/)
+- [News & Media](https://corenaturalresources.com/news-media/)
 - [Sustainability](https://corenaturalresources.com/sustainability/)
 - [Careers](https://corenaturalresources.com/careers/)
-- [Contact](https://corenaturalresources.com/contact/)
+- [Contact](https://corenaturalresources.com/contact-us/)
 
 ## Maintainers
 
