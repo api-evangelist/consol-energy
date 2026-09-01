@@ -71,6 +71,10 @@ apis:
     tags:
       - Filings
       - SEC EDGAR
+      - Third Party
+    tags_raw:
+      - Filings
+      - SEC EDGAR
       - Third-Party
     properties:
       - type: Documentation
