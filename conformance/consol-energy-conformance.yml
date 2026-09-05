@@ -1,0 +1,58 @@
+generated: '2026-09-05'
+method: probed
+source: >-
+  derived from openapi/consol-energy-*-openapi.yml and live responses observed
+  2026-09-05
+standards:
+  - id: rest
+    conforms: true
+    evidence: JSON over HTTPS, resource collections and item routes, GET-only public surface.
+  - id: rfc8288-web-linking
+    conforms: true
+    evidence: 'Link header carries rel="prev"/rel="next" on paginated collections; every resource carries a _links object.'
+  - id: pagination
+    conforms: true
+    evidence: page/per_page/offset params with X-WP-Total and X-WP-TotalPages response headers.
+  - id: oembed-1.0
+    conforms: true
+    evidence: '/oembed/1.0/embed returned a valid oEmbed 1.0 JSON document naming provider_name "Core Natural Resources, Inc."'
+  - id: rss-2.0
+    conforms: true
+    evidence: 'https://corenaturalresources.com/feed returns RSS 2.0 (HTTP 200).'
+  - id: sitemaps-org
+    conforms: true
+    evidence: 'https://corenaturalresources.com/sitemap.xml returns a sitemap index (HTTP 200), declared in robots.txt.'
+  - id: cors
+    conforms: true
+    evidence: Access-Control-Expose-Headers and Access-Control-Allow-Headers are set on API responses.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Errors use the WordPress {code,message,data.status} envelope with content-type application/json.
+  - id: oauth2
+    conforms: false
+    evidence: No OAuth surface; no /.well-known/oauth-authorization-server (404).
+  - id: oidc
+    conforms: false
+    evidence: /.well-known/openid-configuration returned 404 on both hosts.
+  - id: idempotency
+    conforms: false
+    evidence: No mutating public surface; no Idempotency-Key contract.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: /.well-known/security.txt returned 404 on both hosts.
+domain_standards:
+  - id: none-identified
+    conforms: false
+    note: >-
+      Coal mining and power-generation fuel supply have no widely-adopted
+      machine-readable API standard that this content surface could declare, and
+      the surface is a CMS content API rather than an operational or trading one.
+      Recorded as an honest absence — reward-only, so nothing is invented to fill
+      the slot. Regulatory reporting (MSHA, EIA, SEC) is filed as documents to
+      the agency, not exposed as a conformant API by the company.
+compliance_program:
+  published: false
+  note: >-
+    No trust center, no SOC 2 / ISO 27001 / PCI / HIPAA / FedRAMP claim, and no
+    security page (probe/security-programs found none, /security returned 404).
+    No Compliance pointer is emitted.

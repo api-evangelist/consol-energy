@@ -1,0 +1,543 @@
+openapi: 3.1.0
+info:
+  title: Core Natural Resources Leadership Content API
+  version: wp/v2
+  summary: Public, read-only WordPress REST endpoints exposing the Core Natural Resources leadership and board roster.
+  description: CONSOL Energy merged with Arch Resources in January 2025 to form Core Natural Resources, Inc.; consolenergy.com now 301-redirects to corenaturalresources.com. The company publishes no developer
+    portal and no API documentation, but its corporate site runs WordPress and serves the standard WordPress REST API anonymously at https://corenaturalresources.com/wp-json/. That surface is a real, machine-readable,
+    unauthenticated READ API over company content. Write methods (POST/PUT/PATCH/DELETE) and administrative namespaces (users, settings, plugins, themes, wordfence, rankmath, sliderrevolution) exist on
+    the host but require authentication (WordPress Application Passwords / cookie+nonce) and are deliberately excluded here - /wp/v2/users and /wp/v2/settings were both observed returning HTTP 401 anonymously
+    on 2026-09-05. This is a corporate content API; it is NOT an operational, mining, production or trading API, and Core Natural Resources publishes none.
+  x-provenance:
+    method: derived
+    source: https://corenaturalresources.com/wp-json/
+    derived: '2026-09-05'
+    note: Derived by API Evangelist from the live WordPress route discovery document at https://corenaturalresources.com/wp-json/ (saved verbatim as openapi/consol-energy-content-wp-routes-original.json).
+      Every path, method, parameter and parameter schema comes from that fetched document; every path here was called anonymously on 2026-09-05 and returned HTTP 200. Not published as an API by the company.
+servers:
+- url: https://corenaturalresources.com/wp-json
+  description: Production
+security:
+- {}
+tags:
+- name: Leadership
+  description: Executive and board profiles (custom post type "leader") and the leader-category taxonomy.
+paths:
+  /wp/v2/leader:
+    get:
+      operationId: listLeaders
+      summary: List leaders
+      description: 'The "leader" custom post type: executive leadership and board members. 16 records returned anonymously on 2026-09-05.'
+      tags:
+      - Leadership
+      security:
+      - {}
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+        description: Current page of the collection.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 10
+        description: Maximum number of items to be returned in result set.
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit results to those matching a string.
+      - name: after
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit response to posts published after a given ISO8601 compliant date.
+      - name: modified_after
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit response to posts modified after a given ISO8601 compliant date.
+      - name: before
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit response to posts published before a given ISO8601 compliant date.
+      - name: modified_before
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit response to posts modified before a given ISO8601 compliant date.
+      - name: exclude
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+        description: Ensure result set excludes specific IDs.
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+        description: Limit result set to specific IDs.
+      - name: search_semantics
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - exact
+        description: How to interpret the search input.
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Offset the result set by a specific number of items.
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+        description: Order sort attribute ascending or descending.
+      - name: orderby
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - author
+          - date
+          - id
+          - include
+          - modified
+          - parent
+          - relevance
+          - slug
+          - include_slugs
+          - title
+          default: date
+        description: Sort collection by post attribute.
+      - name: search_columns
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - post_title
+            - post_content
+            - post_excerpt
+          default: []
+        description: Array of column names to be searched.
+      - name: slug
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        description: Limit result set to posts with one or more specific slugs.
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - publish
+            - future
+            - draft
+            - pending
+            - private
+            - trash
+            - auto-draft
+            - inherit
+            - request-pending
+            - request-confirmed
+            - request-failed
+            - request-completed
+            - acf-disabled
+            - dp-rewrite-republish
+            - any
+          default: publish
+        description: Limit result set to posts assigned one or more statuses.
+      - name: tax_relation
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - AND
+          - OR
+        description: Limit result set based on relationship between multiple taxonomies.
+      - name: leader-category
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the leader-category taxonomy.
+      - name: leader-category_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the leader-category taxonomy.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+          headers:
+            X-WP-Total: &id001
+              description: Total number of matching records.
+              schema:
+                type: integer
+            X-WP-TotalPages: &id002
+              description: Total number of pages available.
+              schema:
+                type: integer
+            Link: &id003
+              description: RFC 8288 pagination links (rel="next" / rel="prev").
+              schema:
+                type: string
+        '400':
+          description: Invalid parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required for this resource (WordPress returns HTTP 401 with code rest_forbidden / rest_cannot_view).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No route or resource matched the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-verified:
+        date: '2026-09-05'
+        status: 200
+        x_wp_total: 16
+  /wp/v2/leader/{id}:
+    get:
+      operationId: getLeader
+      summary: Get a leader
+      description: Retrieve a single leader profile by its WordPress post ID.
+      tags:
+      - Leadership
+      security:
+      - {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Unique identifier for the resource.
+        schema:
+          type: integer
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: password
+        in: query
+        required: false
+        schema:
+          type: string
+        description: The password for the post if it is password protected.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required for this resource (WordPress returns HTTP 401 with code rest_forbidden / rest_cannot_view).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No route or resource matched the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-verified:
+        date: '2026-09-05'
+        status: 200
+        example_id: 1880
+  /wp/v2/leader-category:
+    get:
+      operationId: listLeaderCategories
+      summary: List leader categories
+      description: The "leader-category" taxonomy (board of directors, executive leadership). 2 terms returned anonymously on 2026-09-05.
+      tags:
+      - Leadership
+      security:
+      - {}
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+        description: Current page of the collection.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 10
+        description: Maximum number of items to be returned in result set.
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit results to those matching a string.
+      - name: exclude
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+        description: Ensure result set excludes specific IDs.
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+        description: Limit result set to specific IDs.
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+        description: Order sort attribute ascending or descending.
+      - name: orderby
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - include
+          - name
+          - slug
+          - include_slugs
+          - term_group
+          - description
+          - count
+          default: name
+        description: Sort collection by term attribute.
+      - name: hide_empty
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        description: Whether to hide terms not assigned to any posts.
+      - name: parent
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Limit result set to terms assigned to a specific parent.
+      - name: post
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Limit result set to terms assigned to a specific post.
+      - name: slug
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        description: Limit result set to terms with one or more specific slugs.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+          headers:
+            X-WP-Total: *id001
+            X-WP-TotalPages: *id002
+            Link: *id003
+        '400':
+          description: Invalid parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required for this resource (WordPress returns HTTP 401 with code rest_forbidden / rest_cannot_view).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No route or resource matched the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-verified:
+        date: '2026-09-05'
+        status: 200
+        x_wp_total: 2
+  /wp/v2/leader-category/{id}:
+    get:
+      operationId: getLeaderCategory
+      summary: Get a leader category term
+      description: Retrieve a single leader-category taxonomy term.
+      tags:
+      - Leadership
+      security:
+      - {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Unique identifier for the resource.
+        schema:
+          type: integer
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required for this resource (WordPress returns HTTP 401 with code rest_forbidden / rest_cannot_view).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No route or resource matched the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: The WordPress REST API error envelope, observed verbatim on this host.
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code, e.g. rest_forbidden, rest_no_route, rest_post_invalid_id.
+        message:
+          type: string
+          description: Human-readable message.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+              description: HTTP status code.
+      required:
+      - code
+      - message

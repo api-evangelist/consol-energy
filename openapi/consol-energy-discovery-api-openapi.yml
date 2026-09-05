@@ -1,0 +1,492 @@
+openapi: 3.1.0
+info:
+  title: Core Natural Resources Discovery API
+  version: wp/v2
+  summary: 'Public, read-only WordPress REST discovery endpoints: registered content types, taxonomies, statuses, cross-type search and oEmbed.'
+  description: CONSOL Energy merged with Arch Resources in January 2025 to form Core Natural Resources, Inc.; consolenergy.com now 301-redirects to corenaturalresources.com. The company publishes no developer
+    portal and no API documentation, but its corporate site runs WordPress and serves the standard WordPress REST API anonymously at https://corenaturalresources.com/wp-json/. That surface is a real, machine-readable,
+    unauthenticated READ API over company content. Write methods (POST/PUT/PATCH/DELETE) and administrative namespaces (users, settings, plugins, themes, wordfence, rankmath, sliderrevolution) exist on
+    the host but require authentication (WordPress Application Passwords / cookie+nonce) and are deliberately excluded here - /wp/v2/users and /wp/v2/settings were both observed returning HTTP 401 anonymously
+    on 2026-09-05. This is a corporate content API; it is NOT an operational, mining, production or trading API, and Core Natural Resources publishes none.
+  x-provenance:
+    method: derived
+    source: https://corenaturalresources.com/wp-json/
+    derived: '2026-09-05'
+    note: Derived by API Evangelist from the live WordPress route discovery document at https://corenaturalresources.com/wp-json/ (saved verbatim as openapi/consol-energy-content-wp-routes-original.json).
+      Every path, method, parameter and parameter schema comes from that fetched document; every path here was called anonymously on 2026-09-05 and returned HTTP 200. Not published as an API by the company.
+servers:
+- url: https://corenaturalresources.com/wp-json
+  description: Production
+security:
+- {}
+tags:
+- name: Discovery
+  description: Self-describing metadata, search and oEmbed.
+paths:
+  /wp/v2/types:
+    get:
+      operationId: listTypes
+      summary: List content types
+      description: 'Self-describing metadata: every registered post type on the host, with its rest_base and supported fields.'
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required for this resource (WordPress returns HTTP 401 with code rest_forbidden / rest_cannot_view).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No route or resource matched the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-verified:
+        date: '2026-09-05'
+        status: 200
+  /wp/v2/types/{type}:
+    get:
+      operationId: getType
+      summary: Get a content type
+      description: Retrieve metadata for a single registered post type.
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: type
+        in: path
+        required: true
+        description: An alphanumeric identifier for the post type.
+        schema:
+          type: string
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required for this resource (WordPress returns HTTP 401 with code rest_forbidden / rest_cannot_view).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No route or resource matched the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /wp/v2/taxonomies:
+    get:
+      operationId: listTaxonomies
+      summary: List taxonomies
+      description: 'Self-describing metadata: every registered taxonomy, including mine-location, leader-category and news-series-title.'
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit results to taxonomies associated with a specific post type.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required for this resource (WordPress returns HTTP 401 with code rest_forbidden / rest_cannot_view).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No route or resource matched the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-verified:
+        date: '2026-09-05'
+        status: 200
+  /wp/v2/taxonomies/{taxonomy}:
+    get:
+      operationId: getTaxonomy
+      summary: Get a taxonomy
+      description: Retrieve metadata for a single registered taxonomy.
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: taxonomy
+        in: path
+        required: true
+        description: An alphanumeric identifier for the taxonomy.
+        schema:
+          type: string
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required for this resource (WordPress returns HTTP 401 with code rest_forbidden / rest_cannot_view).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No route or resource matched the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /wp/v2/statuses:
+    get:
+      operationId: listStatuses
+      summary: List post statuses
+      description: Registered post statuses on this host.
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required for this resource (WordPress returns HTTP 401 with code rest_forbidden / rest_cannot_view).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No route or resource matched the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-verified:
+        date: '2026-09-05'
+        status: 200
+  /wp/v2/search:
+    get:
+      operationId: searchContent
+      summary: Search site content
+      description: 'Cross-type search over published content. Subtypes available on this host: post, page, leader, mine, article, category, post_tag, leader-category, mine-location, news-series-title. 89
+        results for an empty query on 2026-09-05.'
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+        description: Current page of the collection.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 10
+        description: Maximum number of items to be returned in result set.
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit results to those matching a string.
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - post
+          - term
+          - post-format
+          default: post
+        description: Limit results to items of an object type.
+      - name: subtype
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - post
+            - page
+            - leader
+            - mine
+            - article
+            - category
+            - post_tag
+            - leader-category
+            - mine-location
+            - news-series-title
+            - any
+          default: any
+        description: Limit results to items of one or more object subtypes.
+      - name: exclude
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+        description: Ensure result set excludes specific IDs.
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+        description: Limit result set to specific IDs.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+          headers:
+            X-WP-Total:
+              description: Total number of matching records.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available.
+              schema:
+                type: integer
+            Link:
+              description: RFC 8288 pagination links (rel="next" / rel="prev").
+              schema:
+                type: string
+        '400':
+          description: Invalid parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required for this resource (WordPress returns HTTP 401 with code rest_forbidden / rest_cannot_view).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No route or resource matched the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-verified:
+        date: '2026-09-05'
+        status: 200
+        x_wp_total: 89
+  /oembed/1.0/embed:
+    get:
+      operationId: getOEmbed
+      summary: Get oEmbed data for a URL
+      description: oEmbed 1.0 representation of a corenaturalresources.com URL. Verified returning provider_name "Core Natural Resources, Inc." on 2026-09-05.
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: url
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The URL of the resource for which to fetch oEmbed data.
+      - name: format
+        in: query
+        required: false
+        schema:
+          default: json
+      - name: maxwidth
+        in: query
+        required: false
+        schema:
+          default: 600
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required for this resource (WordPress returns HTTP 401 with code rest_forbidden / rest_cannot_view).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No route or resource matched the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-verified:
+        date: '2026-09-05'
+        status: 200
+components:
+  schemas:
+    Error:
+      type: object
+      description: The WordPress REST API error envelope, observed verbatim on this host.
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code, e.g. rest_forbidden, rest_no_route, rest_post_invalid_id.
+        message:
+          type: string
+          description: Human-readable message.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+              description: HTTP status code.
+      required:
+      - code
+      - message

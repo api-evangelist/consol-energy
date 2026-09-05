@@ -4,32 +4,45 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: CONSOL Energy
 providerId: consol-energy
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: false
+modified: '2026-09-05'
+generated: '2026-09-05'
+method: probed
+source: >-
+  live responses from https://corenaturalresources.com/wp-json/ observed
+  2026-09-05, plus a docs search that found nothing
+reconciled: true
 tags:
   - Coal Mining
   - Energy
   - Rate Limiting
-description: CONSOL Energy (now Core Natural Resources) does not publish a public API or any rate-limit
-  documentation. Supplier and investor portals inherit limits from their underlying SaaS vendors.
-notes: No public CONSOL Energy / Core Natural Resources API exists, so no provider-defined rate limits
-  apply.
+description: >-
+  Core Natural Resources (formerly CONSOL Energy) publishes no rate-limit
+  documentation of any kind, and its public WordPress REST API returns no
+  rate-limit headers. Response headers were inspected on collection and error
+  responses on 2026-09-05: no RateLimit-*, no X-RateLimit-*, no Retry-After.
+  The only enforced ceiling observed is a per-request page size cap of 100
+  (per_page > 100 returns HTTP 400 rest_invalid_param), which is a validation
+  bound rather than a rate limit. An honest zero.
+notes: >-
+  For the third-party SEC EDGAR API listed on this record, the SEC — not this
+  company — states a fair-access ceiling of 10 requests per second and requires a
+  declared User-Agent. That limit belongs to sec.gov and is not counted here.
+limit_count: 0
 sources:
-  - https://corenaturalresources.com
+  - https://corenaturalresources.com/wp-json/
 responseCodes:
-  throttled: 429
-limits:
-  - name: Inherited Vendor-Portal Limits
-    scope: vendor-portal
-    metric: varies
-    limit: 'inherits from underlying SaaS vendor'
-    notes: Portal throttling is set by the third-party portal provider, not by CONSOL Energy directly.
-policies:
-  - name: Vendor-Portal Throttling
-    description: Underlying SaaS portal documentation is the source of truth for any rate-limiting behavior.
+  throttled: null
+  observed: [200, 400, 401, 404]
+limits: []
+policies: []
+headers_observed: []
+evidence:
+  - url: https://corenaturalresources.com/wp-json/wp/v2/article?per_page=2&page=2
+    status: 200
+    note: 'headers returned: x-wp-total, x-wp-totalpages, link, allow, x-content-type-options — no rate-limit header'
+  - url: https://corenaturalresources.com/wp-json/wp/v2/mine?per_page=999
+    status: 400
+    note: 'rest_invalid_param — per_page must be between 1 and 100; a validation cap, not a rate limit'
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

@@ -1,0 +1,24 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Core Natural Resources Site Content API
+  version: 1.0.0
+extends: openapi/consol-energy-site-content-api-openapi.yml
+x-provenance:
+  generated: '2026-09-05'
+  method: generated
+  source: openapi/consol-energy-site-content-api-openapi.yml
+  note: Records the enhancements API Evangelist applied when deriving this contract from the live WordPress route discovery document at https://corenaturalresources.com/wp-json/. The company publishes no
+    OpenAPI, so there is no upstream document to patch — this overlay documents what we added on top of the routes the host reports.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-derived: true
+    x-apievangelist-verified: '2026-09-05'
+    x-apievangelist-surface: wordpress-rest-api
+    x-apievangelist-note: Public read-only surface on the provider's own host; not documented by the provider.
+- target: $.tags[?(@.name=='Site')]
+  update:
+    x-apievangelist-added-by: derivation from /wp-json route index
+- target: $.components.schemas.Error
+  update:
+    x-apievangelist-observed: envelope captured from live 400/401/404 responses on 2026-09-05, not from documentation

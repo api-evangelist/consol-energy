@@ -1,0 +1,68 @@
+generated: '2026-09-05'
+method: derived
+status: candidate
+source: >-
+  derived from openapi/consol-energy-*-openapi.yml; searched for an official
+  server and found none
+searched:
+  - url: https://corenaturalresources.com/llms.txt
+    status: 404
+  - url: https://corenaturalresources.com/.well-known/ai-plugin.json
+    status: 404
+  - url: https://api.github.com/orgs/corenaturalresources
+    status: 404
+  - url: https://api.github.com/orgs/consolenergy
+    status: 404
+  - registry: npm
+    query: 'core natural resources / consol energy'
+    result: no first-party package
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: none
+  verified: derived
+  note: >-
+    Nobody ships an MCP server for this company. This is a CANDIDATE tool list
+    derived from the read-only content API, not a server that exists. No
+    MCPServer pointer is wired in apis.yml; the pointer emitted is
+    X-MCPServerCandidate.
+server:
+  name: consol-energy-content
+  transport: null
+  url: null
+tools:
+  - name: list_mines
+    description: List Core Natural Resources mine profiles, optionally filtered by East/West mine-location.
+    source_operation: openapi/consol-energy-mines-content-api-openapi.yml#listMines
+  - name: get_mine
+    description: Retrieve one mine profile by id.
+    source_operation: openapi/consol-energy-mines-content-api-openapi.yml#getMine
+  - name: list_mine_locations
+    description: List the mine-location taxonomy terms (East, West).
+    source_operation: openapi/consol-energy-mines-content-api-openapi.yml#listMineLocations
+  - name: list_leaders
+    description: List executive leadership and board-member profiles.
+    source_operation: openapi/consol-energy-leadership-content-api-openapi.yml#listLeaders
+  - name: list_leader_categories
+    description: List the leader-category taxonomy terms.
+    source_operation: openapi/consol-energy-leadership-content-api-openapi.yml#listLeaderCategories
+  - name: list_articles
+    description: List news releases and corporate articles, filterable by date and news series.
+    source_operation: openapi/consol-energy-news-content-api-openapi.yml#listArticles
+  - name: get_article
+    description: Retrieve one news release or article by id.
+    source_operation: openapi/consol-energy-news-content-api-openapi.yml#getArticle
+  - name: list_news_series
+    description: List the news-series-title taxonomy terms.
+    source_operation: openapi/consol-energy-news-content-api-openapi.yml#listNewsSeriesTitles
+  - name: list_pages
+    description: List corporate pages (investors, suppliers, sustainability, careers, contact).
+    source_operation: openapi/consol-energy-site-content-api-openapi.yml#listPages
+  - name: list_media
+    description: List media library items, including the published supplier and sustainability PDFs.
+    source_operation: openapi/consol-energy-site-content-api-openapi.yml#listMedia
+  - name: search_content
+    description: Cross-type search over all published content on the host.
+    source_operation: openapi/consol-energy-discovery-api-openapi.yml#searchContent

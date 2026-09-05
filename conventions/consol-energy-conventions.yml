@@ -1,0 +1,90 @@
+generated: '2026-09-05'
+method: probed
+source: >-
+  https://corenaturalresources.com/wp-json/ (route discovery document) plus live
+  response headers and error bodies observed 2026-09-05
+note: >-
+  The company documents none of this. Every convention below was observed on the
+  wire or read out of the route discovery document the host serves.
+authentication:
+  style: none for reads; WordPress cookie+X-WP-Nonce or Application Passwords (HTTP Basic) for writes
+  see: authentication/consol-energy-authentication.yml
+pagination:
+  style: page-number
+  params:
+    page: 1-based page index (default 1)
+    per_page: 1-100 (default 10); 999 returns 400 rest_invalid_param
+    offset: alternative absolute offset
+  response_headers:
+    X-WP-Total: total matching records
+    X-WP-TotalPages: total pages available
+    Link: RFC 8288 rel="prev" / rel="next"
+  cors_exposed: true
+  cors_note: Access-Control-Expose-Headers advertises X-WP-Total, X-WP-TotalPages and Link, so a browser client can read them.
+  evidence: 'GET /wp/v2/article?per_page=2&page=2 -> x-wp-total: 40, x-wp-totalpages: 20, RFC 8288 Link header with prev and next'
+filtering:
+  search: '?search= free text; ?search_columns= restricts to post_title/post_content/post_excerpt'
+  ordering: '?orderby= (date, id, title, slug, modified, relevance, include) with ?order=asc|desc'
+  by_id: '?include=/?exclude= arrays of IDs'
+  by_slug: '?slug= array of slugs'
+  by_date: '?after=/?before=/?modified_after=/?modified_before= ISO 8601'
+  by_taxonomy: '?mine-location=, ?leader-category=, ?news-series-title= term IDs, each with an _exclude sibling'
+sparse_fields:
+  supported: true
+  param: _fields
+  note: '?_fields=id,slug,link,title trims the representation; used to capture the examples/ payloads.'
+  embedding: '?_embed expands _links into an _embedded object (WordPress core behaviour).'
+metadata:
+  hypermedia: every resource carries a _links object (self, collection, about, wp:attachment, curies)
+  context: '?context=view|embed|edit selects the field set; edit requires authentication'
+request_tracing:
+  request_id_header: none
+  note: No correlation or request-id header is returned.
+versioning:
+  scheme: namespace-in-path
+  current: wp/v2
+  namespaces_registered:
+    - wp/v2
+    - oembed/1.0
+    - wp-site-health/v1
+    - wp-block-editor/v1
+    - wp-abilities/v1
+    - rankmath/v1
+    - wordfence/v1
+    - wordfence-login-security/v1
+    - sliderrevolution
+    - nextgenthemes/v1
+    - nextgenthemes_arve/v1
+  note: >-
+    Versioning is inherited from WordPress core and its plugins, not chosen by
+    the company. A plugin upgrade can add or remove a namespace without notice.
+error_envelope:
+  media_type: application/json
+  shape: '{code, message, data:{status}}'
+  rfc9457: false
+  see: errors/consol-energy-problem-types.yml
+rate_limit_signaling:
+  headers: none
+  note: No RateLimit-*, X-RateLimit-* or Retry-After header was returned on any probe.
+  see: rate-limits/consol-energy-rate-limits.yml
+idempotency:
+  coverage: na
+  mechanism: none
+  scope: []
+  note: >-
+    The catalogued surface is read-only — every operation in openapi/ is a GET.
+    Write methods exist on the host but are authenticated and undocumented, and
+    are deliberately not catalogued, so there is no mutating surface here for an
+    idempotency contract to cover. Recorded as na, not none.
+dry_run_mode:
+  supported: na
+  note: Read-only surface; nothing to rehearse.
+reversibility:
+  grade: na
+  note: >-
+    No write surface is exposed to an unauthenticated agent, so there is nothing
+    to reverse. WordPress core's own trash/restore semantics (DELETE with
+    force=false, then untrash) exist behind authentication on this host, but the
+    company states no window and publishes no policy, so no window is asserted
+    here.
+  write_surfaces: []

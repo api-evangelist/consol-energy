@@ -4,43 +4,41 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: CONSOL Energy
 providerId: consol-energy
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: false
+modified: '2026-09-05'
+generated: '2026-09-05'
+method: searched
+source: >-
+  searched corenaturalresources.com for a pricing, plans or developer page on
+  2026-09-05; none exists
+reconciled: true
 tags:
   - Coal Mining
   - Energy
   - Core Natural Resources
-description: CONSOL Energy merged with Arch Resources in 2025 to form Core Natural Resources; the consolenergy.com
-  domain redirects to corenaturalresources.com. Neither entity publishes public developer APIs or developer
-  pricing. External digital surface is investor-relations and supplier portals.
-notes: CONSOL Energy is a coal-mining producer (now part of Core Natural Resources). No public API or
-  developer pricing exists; this artifact is a catalog placeholder.
+description: >-
+  Core Natural Resources (formerly CONSOL Energy) sells coal, not software. It
+  publishes no pricing page, no plans, no developer sign-up and no API product.
+  The one first-party machine-readable surface on its host — the WordPress REST
+  API behind the corporate site — is free, anonymous and unmetered, and is not
+  offered or sold as a product. Coal is sold under negotiated supply contracts
+  and disclosed in SEC filings, not on a plans page.
+notes: >-
+  plan_count is 0 by finding, not by omission. The previous version of this file
+  invented a "Supplier / Investor Portal Access" tier; no such plan is published
+  and it has been removed.
+plan_count: 0
 sources:
-  - https://corenaturalresources.com
-plans:
-  - id: consol-energy-supplier-access
-    name: Supplier / Investor Portal Access
-    type: enterprise
-    description: Access is granted via the supplier and investor relations portals; there is no developer
-      pricing.
-    entries:
-      - label: Supplier / Investor Access
-        description: Portal access is governed by counterparty / supplier onboarding, not by API plan.
-        name: portal_access
-        type: subscription
-        metric: varies
-        limit: 'see counterparty agreement'
-        timeFrame: year
-        geo: configurable
-        unit: 1
-        price: 'see counterparty agreement'
-        userMultiplied: false
-    elements:
-      - name: Supplier Portal
-      - name: Investor Relations Portal
+  - https://corenaturalresources.com/
+  - https://corenaturalresources.com/suppliers/
+  - https://corenaturalresources.com/investors/
+plans: []
+evidence:
+  - url: https://corenaturalresources.com/
+    status: 200
+    note: no pricing or developer navigation anywhere on the site
+  - url: https://corenaturalresources.com/suppliers/
+    status: 200
+    note: supplier terms, conditions and Code of Conduct as PDFs; no plan, tier or price
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

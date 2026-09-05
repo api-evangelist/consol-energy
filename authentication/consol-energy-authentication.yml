@@ -1,0 +1,53 @@
+generated: '2026-09-05'
+method: probed
+source: https://corenaturalresources.com/wp-json/
+docs: null
+summary:
+  types: [none, cookie-nonce, http-basic]
+  api_key_in: []
+  oauth2_flows: []
+  public_read: true
+  note: >-
+    The read surface this profile catalogs requires NO authentication: every
+    endpoint in openapi/ returned HTTP 200 to an anonymous GET on 2026-09-05,
+    and the route discovery document reports an empty "authentication" array.
+    The write and administrative surface is authenticated by WordPress core
+    mechanisms, which the company documents nowhere; it was established by
+    probe, not by reading a docs page.
+schemes:
+  - name: anonymous
+    type: none
+    description: >-
+      Public read access. No API key, no token, no account. The company
+      publishes no developer portal, no sign-up and no key issuance of any kind.
+    applies_to: every GET operation in openapi/consol-energy-*-openapi.yml
+    sources: [https://corenaturalresources.com/wp-json/]
+  - name: wordpress-cookie-nonce
+    type: apiKey
+    in: header
+    parameter_name: X-WP-Nonce
+    description: >-
+      WordPress' first-party session auth for logged-in editors. Advertised by
+      the host in its CORS preflight allow-list (Access-Control-Allow-Headers
+      includes X-WP-Nonce, observed 2026-09-05). Applies to write methods and
+      the administrative namespaces only.
+    applies_to: write methods and administrative routes (not catalogued here)
+  - name: wordpress-application-passwords
+    type: http
+    scheme: basic
+    description: >-
+      WordPress Application Passwords over HTTP Basic, the standard machine
+      credential for the WordPress REST API. The route
+      /wp/v2/users/{id}/application-passwords is registered on this host.
+      Issued by site administrators; not available to the public.
+    applies_to: write methods and administrative routes (not catalogued here)
+evidence:
+  - url: https://corenaturalresources.com/wp-json/wp/v2/mine
+    status: 200
+    note: anonymous GET succeeded
+  - url: https://corenaturalresources.com/wp-json/wp/v2/users
+    status: 401
+    body: '{"code":"rest_user_cannot_view","message":"Sorry, you are not allowed to list users.","data":{"status":401}}'
+  - url: https://corenaturalresources.com/wp-json/wp/v2/settings
+    status: 401
+    body: '{"code":"rest_forbidden","message":"Sorry, you are not allowed to do that.","data":{"status":401}}'

@@ -1,0 +1,114 @@
+generated: '2026-09-05'
+method: derived
+source: >-
+  openapi/consol-energy-content-wp-routes-original.json plus
+  examples/consol-energy-content-types.json fetched 2026-09-05
+note: >-
+  The entity graph of the public content surface. Relationships are read from
+  the WordPress type/taxonomy registration the host itself reports and from the
+  term IDs present in the fetched example payloads — not assumed.
+entities:
+  - name: mine
+    rest_base: mine
+    kind: post_type
+    count: 11
+    id_field: id
+    example_records: [Bailey, Enlow Fork, Harvey, Beckley, Itmann, Mountain Laurel, Leer, Leer South, Black Thunder, West Elk, Coal Creek]
+    relationships:
+      - type: has_many
+        target: mine-location
+        via: mine-location
+        note: array of term IDs on the record; also a query filter
+  - name: mine-location
+    rest_base: mine-location
+    kind: taxonomy
+    count: 2
+    terms: [East, West]
+    relationships:
+      - type: belongs_to
+        target: mine
+        via: post
+  - name: leader
+    rest_base: leader
+    kind: post_type
+    count: 16
+    relationships:
+      - type: has_many
+        target: leader-category
+        via: leader-category
+  - name: leader-category
+    rest_base: leader-category
+    kind: taxonomy
+    count: 2
+    terms: [Board of Directors, Executive Leadership]
+    relationships:
+      - type: belongs_to
+        target: leader
+        via: post
+  - name: article
+    rest_base: article
+    kind: post_type
+    count: 40
+    relationships:
+      - type: has_many
+        target: news-series-title
+        via: news-series-title
+      - type: has_one
+        target: media
+        via: featured_media
+  - name: news-series-title
+    rest_base: news-series-title
+    kind: taxonomy
+    count: 9
+    relationships:
+      - type: belongs_to
+        target: article
+        via: post
+  - name: page
+    rest_base: pages
+    kind: post_type
+    count: 22
+    relationships:
+      - type: belongs_to
+        target: page
+        via: parent
+      - type: has_one
+        target: media
+        via: featured_media
+  - name: media
+    rest_base: media
+    kind: attachment
+    count: 173
+    note: >-
+      Holds the company's published PDFs — supplier terms and conditions,
+      Supplier Code of Conduct, sustainability and safety disclosures — each
+      addressable by id with a source_url.
+    relationships:
+      - type: belongs_to
+        target: page
+        via: post
+  - name: post
+    rest_base: posts
+    kind: post_type
+    count: 0
+    note: Core WordPress post type is registered and served but empty on this host.
+    relationships:
+      - type: has_many
+        target: category
+        via: categories
+      - type: has_many
+        target: tag
+        via: tags
+  - name: category
+    rest_base: categories
+    kind: taxonomy
+    count: 1
+    note: Only the default Uncategorized term.
+  - name: tag
+    rest_base: tags
+    kind: taxonomy
+    count: 0
+search_index:
+  route: /wp/v2/search
+  total_items: 89
+  subtypes: [post, page, leader, mine, article, category, post_tag, leader-category, mine-location, news-series-title]

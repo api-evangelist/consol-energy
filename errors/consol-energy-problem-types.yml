@@ -1,0 +1,54 @@
+generated: '2026-09-05'
+method: probed
+source: live error responses observed on https://corenaturalresources.com/wp-json/
+format: wordpress-rest-error
+format_note: >-
+  NOT RFC 9457. The host returns application/json (never application/problem+json)
+  with the WordPress error envelope {code, message, data:{status, ...}}. Every
+  problem below was observed verbatim on 2026-09-05; none is documented by the
+  company.
+envelope:
+  media_type: application/json
+  fields:
+    code: machine-readable error slug
+    message: human-readable message
+    data.status: HTTP status code
+    data.params: per-parameter messages (validation errors only)
+    data.details: per-parameter JSON Schema detail (validation errors only)
+problems:
+  - status: 400
+    code: rest_invalid_param
+    title: Invalid parameter
+    detail: 'Invalid parameter(s): per_page'
+    remediation: per_page must be between 1 and 100 inclusive.
+    observed: https://corenaturalresources.com/wp-json/wp/v2/mine?per_page=999
+  - status: 400
+    code: rest_post_invalid_page_number
+    title: Page number out of range
+    detail: The page number requested is larger than the number of pages available.
+    remediation: Read X-WP-TotalPages from the collection response and stop paging at that value.
+    observed: https://corenaturalresources.com/wp-json/wp/v2/mine?page=99
+  - status: 401
+    code: rest_forbidden
+    title: Not allowed
+    detail: Sorry, you are not allowed to do that.
+    remediation: Administrative routes require an authenticated WordPress user; no public credential exists.
+    observed: https://corenaturalresources.com/wp-json/wp/v2/settings
+  - status: 401
+    code: rest_user_cannot_view
+    title: Cannot list users
+    detail: Sorry, you are not allowed to list users.
+    remediation: The users collection is closed to anonymous callers on this host.
+    observed: https://corenaturalresources.com/wp-json/wp/v2/users
+  - status: 404
+    code: rest_no_route
+    title: No route matched
+    detail: No route was found matching the URL and request method.
+    remediation: Fetch https://corenaturalresources.com/wp-json/ and read routes[] for the registered surface.
+    observed: https://corenaturalresources.com/wp-json/wp/v2/nosuchroute
+  - status: 404
+    code: rest_post_invalid_id
+    title: Invalid post ID
+    detail: Invalid post ID.
+    remediation: List the collection first and use an id it returns.
+    observed: https://corenaturalresources.com/wp-json/wp/v2/mine/99999

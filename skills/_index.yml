@@ -1,0 +1,19 @@
+generated: '2026-09-05'
+method: generated
+source: >-
+  grounded in the operationIds of openapi/consol-energy-*-openapi.yml, which are
+  derived from the live route discovery document at
+  https://corenaturalresources.com/wp-json/
+note: >-
+  Authored by API Evangelist, not published by the company. Every operationId
+  referenced was verified present in the referenced spec, and every endpoint was
+  called anonymously on 2026-09-05.
+skills:
+  - file: consol-energy-mine-roster.md
+    name: Pull the Core Natural Resources mine roster
+    api: openapi/consol-energy-mines-content-api-openapi.yml
+    operations: [listMines, getMine, listMineLocations, getMineLocation]
+  - file: consol-energy-news-and-disclosures.md
+    name: Retrieve news releases, corporate pages and published PDF disclosures
+    api: openapi/consol-energy-news-content-api-openapi.yml
+    operations: [listArticles, getArticle, listNewsSeriesTitles, listPages, listMedia, searchContent]

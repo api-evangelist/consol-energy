@@ -1,0 +1,87 @@
+generated: '2026-09-05'
+method: probed
+source: live GET of each named /.well-known/ path on every host this record knows
+note: >-
+  Every named discovery path was probed on both the successor domain
+  (corenaturalresources.com, where the WordPress REST API lives) and the legacy
+  CONSOL domain (consolenergy.com, which 301-redirects to it). Every path
+  returned HTTP 404 with the site's standard WordPress 404 HTML page — a clean
+  negative, not a catch-all. No WellKnown or SecurityTxt pointer is emitted in
+  apis.yml, because nothing was served. www.corenaturalresources.com and
+  www.consolenergy.com both 301 to the apex and were not probed separately.
+  sec.gov is a third-party government host and is deliberately out of scope
+  here — documents it serves belong to the SEC, not to this company.
+hit_count: 0
+path_echo_control: passed
+hosts:
+  - host: https://corenaturalresources.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 404
+      - path: /apis.yml
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/consol-energy-negative-control-7f3ab91c.json
+        status: 404
+        note: negative control — a path that cannot exist; 404 confirms this host is not path-echoing
+  - host: https://consolenergy.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 404
+      - path: /apis.yml
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/consol-energy-negative-control-7f3ab91c.json
+        status: 404
+        note: negative control — a path that cannot exist; 404 confirms this host is not path-echoing
+other_probes:
+  - url: https://corenaturalresources.com/llms.txt
+    status: 404
+  - url: https://corenaturalresources.com/AGENTS.md
+    status: 404
+  - url: https://corenaturalresources.com/robots.txt
+    status: 200
+    note: served; disallows /wp-admin/ only and names the sitemap
+  - url: https://corenaturalresources.com/sitemap.xml
+    status: 200
+  - url: https://corenaturalresources.com/feed
+    status: 200
+    note: RSS 2.0 site feed — served, contrary to the 2026-07-25 note that said no XML feeds exist
