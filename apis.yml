@@ -58,199 +58,171 @@ tags:
   - Sustainability
   - Fortune 1000
 apis:
-  - aid: consol-energy:sec-edgar-filings
-    name: SEC EDGAR Filings (Core Natural Resources, CIK 1710366)
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/consol-energy.png
-    description: >-
-      Machine-readable filing data for the post-merger company is published by
-      the U.S. Securities and Exchange Commission, not by the company itself.
-      CIK 0001710366 is the CONSOL Energy Inc. registrant, renamed Core Natural
-      Resources in January 2025, so this covers CONSOL's filing history as well
-      as the merged company's. Listed as a third-party government API.
-    humanURL: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
-    baseURL: https://data.sec.gov
-    tags:
-      - Filings
-      - SEC EDGAR
-      - Third Party
-    tags_raw:
-      - Filings
-      - SEC EDGAR
-      - Third-Party
-    properties:
-      - type: Documentation
-        url: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
-      - type: APIReference
-        url: https://data.sec.gov/submissions/CIK0001710366.json
-    x-evidence:
-      verified: '2026-07-25'
-      method: fetched documentation and called the endpoint
-      documentation: >-
-        The SEC's EDGAR APIs page documents RESTful JSON APIs on data.sec.gov —
-        https://data.sec.gov/submissions/CIK##########.json plus the XBRL
-        companyconcept, companyfacts, and frames APIs. No authentication or API
-        key required; a declared User-Agent and a 10-request-per-second ceiling
-        are the stated fair-access terms.
-      endpoint_check: >-
-        GET https://data.sec.gov/submissions/CIK0001710366.json returned HTTP
-        200 with JSON naming "Core Natural Resources, Inc.", ticker CNR, and
-        the former name "CONSOL Energy Inc." through 2025-01-10.
-      reverified: '2026-09-05'
-      reverify_note: >-
-        Re-probed 2026-09-05. The documentation page returns HTTP 403 to a
-        generic browser User-Agent and HTTP 200 to a declared one; the endpoint
-        returned HTTP 200.
-  - aid: consol-energy:mines-content-api
-    name: Core Natural Resources Mines Content API
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/consol-energy.png
-    description: >-
-      The "mine" custom post type on the company's own WordPress host: profiles
-      for 11 mines — Bailey, Enlow Fork, Harvey (the former CONSOL Pennsylvania
-      Mining Complex), Beckley, Itmann, Mountain Laurel, Leer, Leer South, Black
-      Thunder, West Elk and Coal Creek — together with the mine-location
-      taxonomy that splits them East/West. Served anonymously; derived from the
-      live route discovery document, not documented by the company.
-    humanURL: https://corenaturalresources.com/core-operations/
-    baseURL: https://corenaturalresources.com/wp-json
-    tags:
-      - Mines
-      - Coal Mining
-      - Content API
-      - WordPress REST API
-    properties:
-      - type: OpenAPI
-        url: openapi/consol-energy-mines-content-api-openapi.yml
-      - type: Examples
-        url: examples/consol-energy-mines.json
-      - type: Examples
-        url: examples/consol-energy-mine-locations.json
-      - type: Overlay
-        url: overlays/consol-energy-mines-content-api-overlay.yaml
-    x-evidence:
-      verified: '2026-09-05'
-      method: called the endpoint anonymously
-      endpoint_check: >-
-        GET https://corenaturalresources.com/wp-json/wp/v2/mine returned HTTP
-        200 with X-WP-Total 11; /wp/v2/mine-location returned HTTP 200 with
-        X-WP-Total 2.
-  - aid: consol-energy:leadership-content-api
-    name: Core Natural Resources Leadership Content API
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/consol-energy.png
-    description: >-
-      The "leader" custom post type: 16 executive leadership and board-member
-      profiles, with a leader-category taxonomy separating the board of
-      directors from executive leadership. Served anonymously by the company's
-      own WordPress host.
-    humanURL: https://corenaturalresources.com/about-core/core-leadership/
-    baseURL: https://corenaturalresources.com/wp-json
-    tags:
-      - Leadership
-      - Board Of Directors
-      - Content API
-      - WordPress REST API
-    properties:
-      - type: OpenAPI
-        url: openapi/consol-energy-leadership-content-api-openapi.yml
-      - type: Examples
-        url: examples/consol-energy-leaders.json
-      - type: Examples
-        url: examples/consol-energy-leader-categories.json
-      - type: Overlay
-        url: overlays/consol-energy-leadership-content-api-overlay.yaml
-    x-evidence:
-      verified: '2026-09-05'
-      method: called the endpoint anonymously
-      endpoint_check: >-
-        GET https://corenaturalresources.com/wp-json/wp/v2/leader returned HTTP
-        200 with X-WP-Total 16.
-  - aid: consol-energy:news-content-api
-    name: Core Natural Resources News Content API
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/consol-energy.png
-    description: >-
-      The "article" custom post type: 40 news releases and corporate articles,
-      grouped by the news-series-title taxonomy (9 terms), alongside the core
-      WordPress post, category and tag types. This is the machine-readable form
-      of the news-media page.
-    humanURL: https://corenaturalresources.com/news-media/
-    baseURL: https://corenaturalresources.com/wp-json
-    tags:
-      - News
-      - Press Releases
-      - Content API
-      - WordPress REST API
-    properties:
-      - type: OpenAPI
-        url: openapi/consol-energy-news-content-api-openapi.yml
-      - type: Examples
-        url: examples/consol-energy-articles.json
-      - type: Examples
-        url: examples/consol-energy-news-series.json
-      - type: Overlay
-        url: overlays/consol-energy-news-content-api-overlay.yaml
-    x-evidence:
-      verified: '2026-09-05'
-      method: called the endpoint anonymously
-      endpoint_check: >-
-        GET https://corenaturalresources.com/wp-json/wp/v2/article returned HTTP
-        200 with X-WP-Total 40; /wp/v2/posts returned HTTP 200 with X-WP-Total 0.
-  - aid: consol-energy:site-content-api
-    name: Core Natural Resources Site Content API
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/consol-energy.png
-    description: >-
-      Corporate pages (22, including investors, suppliers, sustainability,
-      careers and contact) and the 173-item media library, which is where the
-      supplier terms and conditions, the Supplier Code of Conduct and the
-      sustainability and safety PDFs are actually addressable as data.
-    humanURL: https://corenaturalresources.com/
-    baseURL: https://corenaturalresources.com/wp-json
-    tags:
-      - Pages
-      - Media
-      - Content API
-      - WordPress REST API
-    properties:
-      - type: OpenAPI
-        url: openapi/consol-energy-site-content-api-openapi.yml
-      - type: Overlay
-        url: overlays/consol-energy-site-content-api-overlay.yaml
-    x-evidence:
-      verified: '2026-09-05'
-      method: called the endpoint anonymously
-      endpoint_check: >-
-        GET https://corenaturalresources.com/wp-json/wp/v2/pages returned HTTP
-        200 with X-WP-Total 22; /wp/v2/media returned HTTP 200 with X-WP-Total
-        173.
-  - aid: consol-energy:discovery-api
-    name: Core Natural Resources Discovery API
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/consol-energy.png
-    description: >-
-      Self-describing metadata for the host: registered content types and
-      taxonomies, post statuses, cross-type search across all 89 published
-      items, and oEmbed 1.0. This is the surface that makes the rest of the
-      content API discoverable without documentation.
-    humanURL: https://corenaturalresources.com/
-    baseURL: https://corenaturalresources.com/wp-json
-    tags:
-      - Discovery
-      - Search
-      - oEmbed
-      - WordPress REST API
-    properties:
-      - type: OpenAPI
-        url: openapi/consol-energy-discovery-api-openapi.yml
-      - type: Examples
-        url: examples/consol-energy-content-types.json
-      - type: Overlay
-        url: overlays/consol-energy-discovery-api-overlay.yaml
-    x-evidence:
-      verified: '2026-09-05'
-      method: called the endpoint anonymously
-      endpoint_check: >-
-        GET https://corenaturalresources.com/wp-json/ returned HTTP 200 naming
-        "Core Natural Resources, Inc." with 232 routes across 16 namespaces;
-        /wp/v2/types, /wp/v2/taxonomies, /wp/v2/statuses, /wp/v2/search and
-        /oembed/1.0/embed each returned HTTP 200.
+- aid: consol-energy:sec-edgar-filings
+  name: SEC EDGAR Filings (Core Natural Resources, CIK 1710366)
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/consol-energy.png
+  description: >-
+    Machine-readable filing data for the post-merger company is published by the U.S. Securities and Exchange
+    Commission, not by the company itself. CIK 0001710366 is the CONSOL Energy Inc. registrant, renamed
+    Core Natural Resources in January 2025, so this covers CONSOL's filing history as well as the merged
+    company's. Listed as a third-party government API.
+  humanURL: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+  baseURL: https://data.sec.gov
+  tags:
+  - Filings
+  - SEC EDGAR
+  - Third Party
+  tags_raw:
+  - Filings
+  - SEC EDGAR
+  - Third-Party
+  properties:
+  - type: Documentation
+    url: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+  - type: APIReference
+    url: https://data.sec.gov/submissions/CIK0001710366.json
+  x-evidence:
+    verified: '2026-07-25'
+    method: fetched documentation and called the endpoint
+    documentation: >-
+      The SEC's EDGAR APIs page documents RESTful JSON APIs on data.sec.gov — https://data.sec.gov/submissions/CIK##########.json
+      plus the XBRL companyconcept, companyfacts, and frames APIs. No authentication or API key required;
+      a declared User-Agent and a 10-request-per-second ceiling are the stated fair-access terms.
+    endpoint_check: >-
+      GET https://data.sec.gov/submissions/CIK0001710366.json returned HTTP 200 with JSON naming "Core
+      Natural Resources, Inc.", ticker CNR, and the former name "CONSOL Energy Inc." through 2025-01-10.
+    reverified: '2026-09-05'
+    reverify_note: >-
+      Re-probed 2026-09-05. The documentation page returns HTTP 403 to a generic browser User-Agent and
+      HTTP 200 to a declared one; the endpoint returned HTTP 200.
+- aid: consol-energy:discovery-api
+  name: Core Natural Resources Discovery API
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/consol-energy.png
+  description: >-
+    Self-describing metadata for the host: registered content types and taxonomies, post statuses, cross-type
+    search across all 89 published items, and oEmbed 1.0. This is the surface that makes the rest of the
+    content API discoverable without documentation.
+  humanURL: https://corenaturalresources.com/
+  baseURL: https://corenaturalresources.com/wp-json
+  tags:
+  - Discovery
+  - Search
+  - oEmbed
+  - WordPress REST API
+  properties:
+  - type: OpenAPI
+    url: openapi/consol-energy-discovery-api-openapi.yml
+  - type: Examples
+    url: examples/consol-energy-content-types.json
+  - type: Overlay
+    url: overlays/consol-energy-discovery-api-overlay.yaml
+  x-evidence:
+    verified: '2026-09-05'
+    method: called the endpoint anonymously
+    endpoint_check: >-
+      GET https://corenaturalresources.com/wp-json/ returned HTTP 200 naming "Core Natural Resources,
+      Inc." with 232 routes across 16 namespaces; /wp/v2/types, /wp/v2/taxonomies, /wp/v2/statuses, /wp/v2/search
+      and /oembed/1.0/embed each returned HTTP 200.
+- aid: consol-energy:consol-energy-leadership-api
+  name: CONSOL Energy Leadership API
+  description: >-
+    Executive and board profiles (custom post type "leader") and the leader-category taxonomy.
+  humanURL: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+  baseURL: https://data.sec.gov
+  tags:
+  - Leadership
+  properties:
+  - type: OpenAPI
+    url: openapi/consol-energy-leadership-api-openapi.yml
+  - type: Examples
+    url: examples/consol-energy-mines.json
+  - type: Examples
+    url: examples/consol-energy-mine-locations.json
+  - type: Examples
+    url: examples/consol-energy-leaders.json
+  - type: Examples
+    url: examples/consol-energy-leader-categories.json
+  - type: Examples
+    url: examples/consol-energy-articles.json
+  - type: Examples
+    url: examples/consol-energy-news-series.json
+- aid: consol-energy:consol-energy-mines-api
+  name: CONSOL Energy Mines API
+  description: Mine profiles (custom post type "mine") and the mine-location taxonomy.
+  humanURL: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+  baseURL: https://data.sec.gov
+  tags:
+  - Mines
+  properties:
+  - type: OpenAPI
+    url: openapi/consol-energy-mines-api-openapi.yml
+  - type: Examples
+    url: examples/consol-energy-mines.json
+  - type: Examples
+    url: examples/consol-energy-mine-locations.json
+  - type: Examples
+    url: examples/consol-energy-leaders.json
+  - type: Examples
+    url: examples/consol-energy-leader-categories.json
+  - type: Examples
+    url: examples/consol-energy-articles.json
+  - type: Examples
+    url: examples/consol-energy-news-series.json
+- aid: consol-energy:consol-energy-news-api
+  name: CONSOL Energy News API
+  description: >-
+    News releases and articles (custom post type "article"), the news-series-title taxonomy, and the core
+    post/category/tag types.
+  humanURL: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+  baseURL: https://data.sec.gov
+  tags:
+  - News
+  properties:
+  - type: OpenAPI
+    url: openapi/consol-energy-news-api-openapi.yml
+  - type: Examples
+    url: examples/consol-energy-mines.json
+  - type: Examples
+    url: examples/consol-energy-mine-locations.json
+  - type: Examples
+    url: examples/consol-energy-leaders.json
+  - type: Examples
+    url: examples/consol-energy-leader-categories.json
+  - type: Examples
+    url: examples/consol-energy-articles.json
+  - type: Examples
+    url: examples/consol-energy-news-series.json
+- aid: consol-energy:consol-energy-site-api
+  name: CONSOL Energy Site API
+  description: Corporate pages and the media library.
+  humanURL: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+  baseURL: https://data.sec.gov
+  tags:
+  - Site
+  properties:
+  - type: OpenAPI
+    url: openapi/consol-energy-site-api-openapi.yml
+  - type: Examples
+    url: examples/consol-energy-mines.json
+  - type: Examples
+    url: examples/consol-energy-mine-locations.json
+  - type: Examples
+    url: examples/consol-energy-leaders.json
+  - type: Examples
+    url: examples/consol-energy-leader-categories.json
+  - type: Examples
+    url: examples/consol-energy-articles.json
+  - type: Examples
+    url: examples/consol-energy-news-series.json
 common:
+  - type: Overlay
+    url: overlays/consol-energy-mines-content-api-overlay.yaml
+  - type: Overlay
+    url: overlays/consol-energy-leadership-content-api-overlay.yaml
+  - type: Overlay
+    url: overlays/consol-energy-news-content-api-overlay.yaml
+  - type: Overlay
+    url: overlays/consol-energy-site-content-api-overlay.yaml
   - type: Website
     url: https://corenaturalresources.com/
   - type: X-LegacyWebsite
