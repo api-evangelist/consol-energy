@@ -1,7 +1,9 @@
 ---
 title: Arch, Consol to Combine Into $5.2 Billion Coal Giant
 url: https://www.wsj.com/business/energy-oil/coal-miners-arch-consol-agree-to-merger-of-equals-5f9ea0e9
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Consol Energy" press release artificial intelligence'
 position: 3
 source: serpapi-google

@@ -1,8 +1,10 @@
+# x-archived-from: consol-energy-mines-content-api-openapi.yml
+# x-archived-on: 2026-09-16
 openapi: 3.1.0
 info:
-  title: Core Natural Resources Leadership Content API
+  title: Core Natural Resources Mines Content API
   version: wp/v2
-  summary: Public, read-only WordPress REST endpoints exposing the Core Natural Resources leadership and board roster.
+  summary: Public, read-only WordPress REST endpoints exposing the Core Natural Resources mine profiles and the mine-location taxonomy.
   description: CONSOL Energy merged with Arch Resources in January 2025 to form Core Natural Resources, Inc.; consolenergy.com now 301-redirects to corenaturalresources.com. The company publishes no developer
     portal and no API documentation, but its corporate site runs WordPress and serves the standard WordPress REST API anonymously at https://corenaturalresources.com/wp-json/. That surface is a real, machine-readable,
     unauthenticated READ API over company content. Write methods (POST/PUT/PATCH/DELETE) and administrative namespaces (users, settings, plugins, themes, wordfence, rankmath, sliderrevolution) exist on
@@ -20,16 +22,16 @@ servers:
 security:
 - {}
 tags:
-- name: Leadership
-  description: Executive and board profiles (custom post type "leader") and the leader-category taxonomy.
+- name: Mines
+  description: Mine profiles (custom post type "mine") and the mine-location taxonomy.
 paths:
-  /wp/v2/leader:
+  /wp/v2/mine:
     get:
-      operationId: listLeaders
-      summary: List leaders
-      description: 'The "leader" custom post type: executive leadership and board members. 16 records returned anonymously on 2026-09-05.'
+      operationId: listMines
+      summary: List mines
+      description: 'The "mine" custom post type: Core Natural Resources mine profiles. 11 records returned anonymously (X-WP-Total: 11) on 2026-09-05.'
       tags:
-      - Leadership
+      - Mines
       security:
       - {}
       parameters:
@@ -203,18 +205,18 @@ paths:
           - AND
           - OR
         description: Limit result set based on relationship between multiple taxonomies.
-      - name: leader-category
+      - name: mine-location
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the leader-category taxonomy.
-      - name: leader-category_exclude
+        description: Limit result set to items with specific terms assigned in the mine-location taxonomy.
+      - name: mine-location_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the leader-category taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the mine-location taxonomy.
       responses:
         '200':
           description: Successful response.
@@ -258,14 +260,14 @@ paths:
       x-verified:
         date: '2026-09-05'
         status: 200
-        x_wp_total: 16
-  /wp/v2/leader/{id}:
+        x_wp_total: 11
+  /wp/v2/mine/{id}:
     get:
-      operationId: getLeader
-      summary: Get a leader
-      description: Retrieve a single leader profile by its WordPress post ID.
+      operationId: getMine
+      summary: Get a mine
+      description: Retrieve a single mine profile by its WordPress post ID.
       tags:
-      - Leadership
+      - Mines
       security:
       - {}
       parameters:
@@ -320,14 +322,14 @@ paths:
       x-verified:
         date: '2026-09-05'
         status: 200
-        example_id: 1880
-  /wp/v2/leader-category:
+        example_id: 947
+  /wp/v2/mine-location:
     get:
-      operationId: listLeaderCategories
-      summary: List leader categories
-      description: The "leader-category" taxonomy (board of directors, executive leadership). 2 terms returned anonymously on 2026-09-05.
+      operationId: listMineLocations
+      summary: List mine locations
+      description: The "mine-location" taxonomy used to group mines geographically. 2 terms (East, West) returned anonymously on 2026-09-05.
       tags:
-      - Leadership
+      - Mines
       security:
       - {}
       parameters:
@@ -468,13 +470,13 @@ paths:
         date: '2026-09-05'
         status: 200
         x_wp_total: 2
-  /wp/v2/leader-category/{id}:
+  /wp/v2/mine-location/{id}:
     get:
-      operationId: getLeaderCategory
-      summary: Get a leader category term
-      description: Retrieve a single leader-category taxonomy term.
+      operationId: getMineLocation
+      summary: Get a mine location term
+      description: Retrieve a single mine-location taxonomy term.
       tags:
-      - Leadership
+      - Mines
       security:
       - {}
       parameters:

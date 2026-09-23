@@ -1,7 +1,9 @@
 ---
 title: Core Natural Resources bets on AI data center power ...
 url: https://www.bizjournals.com/pittsburgh/news/2026/02/12/core-natural-resources-artificial-intelligence.html
-date: '2026-05-25'
+published: '2026-02-12'
+date_basis: url-derived
+harvested: '2026-05-25'
 query: '"Consol Energy" press release artificial intelligence'
 position: 5
 source: serpapi-google

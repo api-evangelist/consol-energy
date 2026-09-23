@@ -1,0 +1,36 @@
+{
+  "provider": "consol-energy",
+  "sources": [
+    "_original/consol-energy-leadership-content-api-openapi.yml",
+    "_original/consol-energy-mines-content-api-openapi.yml",
+    "_original/consol-energy-news-content-api-openapi.yml",
+    "_original/consol-energy-site-content-api-openapi.yml",
+    "consol-energy-discovery-api-openapi.yml"
+  ],
+  "outputs": [
+    "consol-energy-leadership-api-openapi.yml",
+    "consol-energy-mines-api-openapi.yml",
+    "consol-energy-news-api-openapi.yml",
+    "consol-energy-site-api-openapi.yml",
+    "consol-energy-discovery-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [
+    "consol-energy-discovery-api-openapi.yml: previously refined output kept for 7 operation(s) no archived document covers (e.g. /oembed/1.0/embed get, /wp/v2/search get, /wp/v2/statuses get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth."
+  ],
+  "notes": [
+    "sourced from openapi/_original/ (4 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "consol-energy-leadership-content-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "consol-energy-mines-content-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "consol-energy-news-content-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "consol-energy-site-content-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "consol-energy-leadership-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "consol-energy-mines-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "consol-energy-news-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "consol-energy-site-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}
