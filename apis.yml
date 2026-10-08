@@ -111,6 +111,8 @@ apis:
   x-platform: wordpress
   x-platform-surface: rest
 common:
+  - type: FinOps
+    url: finops/consol-energy-finops.yml
   - type: Website
     url: https://corenaturalresources.com/
   - type: X-LegacyWebsite
