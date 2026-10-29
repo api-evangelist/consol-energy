@@ -1,4 +1,4 @@
-# CONSOL Energy (consol-energy)
+# CONSOL Energy
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,101 +64,117 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-CONSOL Energy was a Pittsburgh-based coal mining company that produced high-quality bituminous coal from underground mines for sale to electric utilities, steelmakers, and industrial customers. In January 2025 CONSOL Energy merged with Arch Resources to form Core Natural Resources, Inc. (NYSE: CNR), and consolenergy.com now 301-redirects to corenaturalresources.com.
+CONSOL Energy was a Pittsburgh-based bituminous coal producer serving electric utilities, steelmakers and industrial customers. In January 2025 it merged with Arch Resources to form Core Natural Resources, Inc. (NYSE: CNR), and consolenergy.com now 301-redirects to corenaturalresources.com. The company publishes no developer portal, no API documentation, no SDKs and no GitHub organization — but it runs its corporate site on WordPress and serves the WordPress REST API anonymously at https://corenaturalresources.com/wp-json/, a real machine-readable read surface with custom post types for mines (11, with an East/West taxonomy), leadership (16) and news releases (40), plus pages and a 173-item media library holding the supplier terms, Supplier Code of Conduct and sustainability PDFs. Each endpoint was called anonymously on 2026-09-05; writes and admin routes are authenticated (401). Financial data stays third-party, via the SEC EDGAR APIs. See arch-coal for the other merger half.
 
-The company publishes no developer portal, no API documentation, no SDKs and no GitHub organization. It does, however, run its corporate site on WordPress and serve the standard **WordPress REST API anonymously at `https://corenaturalresources.com/wp-json/`** — a real, machine-readable, unauthenticated read surface over company content. That surface carries custom post types the company defined for its own business: **11 mines** (Bailey, Enlow Fork and Harvey from the legacy CONSOL fleet; Black Thunder, West Elk, Leer, Leer South, Beckley, Itmann, Mountain Laurel and Coal Creek), grouped East/West by a `mine-location` taxonomy; **16 leadership and board profiles**; **40 news releases** in 9 series; 22 corporate pages; and a **173-item media library** holding the supplier terms and conditions, the Supplier Code of Conduct and the sustainability and safety PDFs as addressable files.
+**Areas:** Bituminous Coal · Coal Mining · Core Natural Resources · Energy · Investor Relations · Mining · Suppliers · Sustainability · Fortune 1000
 
-Every endpoint catalogued here was called anonymously on **2026-09-05** and returned HTTP 200. Write methods and the administrative namespaces exist on the host but are authenticated — `/wp/v2/users` and `/wp/v2/settings` both returned HTTP 401 — and are deliberately not catalogued. The OpenAPI documents in `openapi/` are **derived by API Evangelist** from the route discovery document the host itself serves (saved verbatim as `openapi/consol-energy-content-wp-routes-original.json`); the company publishes no OpenAPI.
+## CONSOL Energy on APIs.io
 
-This corrects the 2026-07-25 note on this profile, which said the company had "no documented endpoints and no XML feeds." Endpoints are still undocumented — but they are served, and so are `/feed` (RSS 2.0) and `/sitemap.xml`.
+Everything profiled for CONSOL Energy is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/consol-energy/](https://apis.io/providers/consol-energy/)** — or go straight to one of the APIs or properties below.
 
-Machine-readable **financial** data remains third-party, via the SEC's own EDGAR APIs.
+### APIs (2)
 
-**Related profile:** [arch-coal](https://github.com/api-evangelist/arch-coal) — the other half of the merger. It shares this successor domain, and therefore this same content surface.
+- [SEC EDGAR Filings (Core Natural Resources, CIK 1710366)](https://apis.io/apis/consol-energy/sec-edgar-filings/) — Machine-readable filing data for the post-merger company is published by the U.S. Securities and Exchange Commission, not by the company itself. CIK…
+- [CONSOL Energy Website (WordPress REST)](https://apis.io/apis/consol-energy/corenaturalresources-com-website-wordpress-rest/) — The public WordPress REST API (wp-json) of the CONSOL Energy website at corenaturalresources.com: the route index of the site's content management system,…
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/consol-energy/refs/heads/main/apis.yml)
+### Published properties
 
-## Scope
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- **Type:** Index
-- **Position:** Producing
-- **Access:** 1st-Party
-- **Classification:** Company
+#### MCP servers (1)
 
-## Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Bituminous Coal, Coal Mining, Core Natural Resources, Energy, Investor Relations, Mining, Suppliers, Sustainability, Fortune 1000
+- [consol-energy-content](https://apis.io/servers/consol-energy/consol-energy-content/)
 
-## Timestamps
+#### Examples (1)
 
-- **Created:** 2026-03-23
-- **Modified:** 2026-09-05
+Example requests and responses.
 
-## APIs
+- [Moved to /providers/consol-energy/](https://apis.io/examples/consol-energy/consol-energy-content-types/)
 
-### Core Natural Resources Mines Content API
+#### Security (2)
 
-The `mine` custom post type plus the `mine-location` taxonomy. `GET /wp/v2/mine` returned HTTP 200 with `X-WP-Total: 11`.
+Authentication, trust centre, and vulnerability disclosure.
 
-- Base URL: `https://corenaturalresources.com/wp-json`
-- [Operations page](https://corenaturalresources.com/core-operations/)
-- Spec: `openapi/consol-energy-mines-content-api-openapi.yml`
+- [Consol Energy Authentication](https://apis.io/security/consol-energy/consol-energy-authentication/)
+- [Consol Energy Domain Security](https://apis.io/security/consol-energy/consol-energy-domain-security/)
 
-### Core Natural Resources Leadership Content API
+#### Plans and pricing (1)
 
-The `leader` custom post type plus `leader-category`. `GET /wp/v2/leader` returned HTTP 200 with `X-WP-Total: 16`.
+Published plans, tiers and prices.
 
-- [Leadership page](https://corenaturalresources.com/about-core/core-leadership/)
-- Spec: `openapi/consol-energy-leadership-content-api-openapi.yml`
+- [Consol Energy Plans Pricing](https://apis.io/plans/consol-energy/consol-energy-plans-pricing/)
 
-### Core Natural Resources News Content API
+#### Rate limits (1)
 
-The `article` custom post type plus the `news-series-title` taxonomy. `GET /wp/v2/article` returned HTTP 200 with `X-WP-Total: 40`; the core `posts` collection is registered but empty.
+Published request limits.
 
-- [News & media](https://corenaturalresources.com/news-media/)
-- Spec: `openapi/consol-energy-news-content-api-openapi.yml`
+- [Consol Energy Rate Limits](https://apis.io/rate-limits/consol-energy/consol-energy-rate-limits/)
 
-### Core Natural Resources Site Content API
+#### FinOps (1)
 
-Corporate pages (22) and the media library (173), where the published supplier and sustainability PDFs live.
+What the API costs to run, by operation.
 
-- Spec: `openapi/consol-energy-site-content-api-openapi.yml`
+- [Consol Energy Finops](https://apis.io/finops/consol-energy/consol-energy-finops/)
 
-### Core Natural Resources Discovery API
+## Where to find this API
 
-Registered types and taxonomies, post statuses, cross-type search (89 items) and oEmbed 1.0 — the surface that makes the rest discoverable without documentation.
-
-- Spec: `openapi/consol-energy-discovery-api-openapi.yml`
-
-### SEC EDGAR Filings (Core Natural Resources, CIK 1710366)
-
-Third-party government API — filing history as JSON. CIK 0001710366 is the CONSOL Energy Inc. registrant, renamed Core Natural Resources in January 2025, so it covers CONSOL's filing history as well as the merged company's.
-
-- [EDGAR APIs documentation](https://www.sec.gov/search-filings/edgar-application-programming-interfaces)
-- [https://data.sec.gov/submissions/CIK0001710366.json](https://data.sec.gov/submissions/CIK0001710366.json)
-
-**Evidence, verified 2026-07-25, re-probed 2026-09-05.** The documentation page describes RESTful JSON APIs on `data.sec.gov`, no authentication required, with a declared User-Agent and a 10-requests-per-second fair-access ceiling. It returns HTTP 403 to a generic browser User-Agent and HTTP 200 to a declared one. Calling the endpoint returned HTTP 200 with JSON naming "Core Natural Resources, Inc.", ticker CNR, and the former name "CONSOL Energy Inc." through 2025-01-10.
-
-## What the company does not publish
-
-Probed 2026-09-05, all returning HTTP 404 on both `corenaturalresources.com` and `consolenergy.com`: every `/.well-known/` path in the pipeline's list (security.txt, openid-configuration, oauth-authorization-server, oauth-protected-resource, api-catalog, ai-plugin.json, apis.json, agent-card.json, agent.json, aauth-resource.json), plus `/apis.json`, `/apis.yml`, `/llms.txt` and `/AGENTS.md`. A negative-control path confirmed the hosts are not answering 200 to everything. There is no status page, no changelog, no security or disclosure page, no trust center, no MCP server, no A2A agent card, no SDK in any registry, no GitHub organization, and no pricing or plans of any kind. Those absences are recorded as data, not guessed.
-
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://corenaturalresources.com/)
-- [Legacy Website](https://consolenergy.com) (301 to the successor domain; the previously listed `www.consol-energy.com` no longer resolves and was removed)
-- [Suppliers](https://corenaturalresources.com/suppliers/)
-- [Investor Relations](https://corenaturalresources.com/investors/)
-- [Newsroom](https://corenaturalresources.com/news-media/)
-- [Sustainability](https://corenaturalresources.com/sustainability/)
-- [Careers](https://corenaturalresources.com/careers/)
-- [Contact](https://corenaturalresources.com/contact-us/)
-- [Privacy Policy](https://corenaturalresources.com/privacy-policy/)
-- [Terms and Conditions](https://corenaturalresources.com/arch-terms-and-conditions/)
-- [LinkedIn](https://www.linkedin.com/company/consol-energy)
+- [Terms of service](https://corenaturalresources.com/arch-terms-and-conditions/)
+- [Privacy policy](https://corenaturalresources.com/privacy-policy/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
+**Kin Score 20.3** — emerging · rubric 0.24.0 · scored 2026-10-17
 
-**Email:** kin@apievangelist.com
+| Facet | Score |
+|---|---|
+| Discoverability | 63.4 |
+| Contract quality | 1.7 |
+| Contract governance | 18.2 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 30.4 |
+| Access clarity | 21.1 |
+
+**Agent readiness 10.2** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 20.5** — Energy & Utilities
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/consol-energy/](https://apis.io/providers/consol-energy/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for CONSOL Energy: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/consol-energy/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
